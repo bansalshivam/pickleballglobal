@@ -88,3 +88,37 @@ That's it. The loop is closed — there's a real, live, authenticated site.
 Content & events pages: a table in Supabase, a form to add them, a page
 to list them. Mostly CRUD. Park everything else (rankings, tournaments,
 ratings, club finder) until this is live and she's using it.
+
+---
+
+# Milestone 2 — Events & news
+
+The dashboard is now real. Members see upcoming events and club news,
+and can add both. New skill in here: **Row Level Security (RLS)** —
+the rules that decide who can read/write each row.
+
+## What's new
+- `supabase/schema.sql` — creates the `events` and `news` tables + RLS policies
+- `app/dashboard/page.js` — now fetches and shows events + news
+- `app/dashboard/events/new/` — form to add an event
+- `app/dashboard/news/new/` — form to post news
+
+## One required step before it works: run the SQL
+The new pages read/write two database tables that don't exist yet.
+1. Open your Supabase project → **SQL Editor** → **New query**.
+2. Paste the entire contents of `supabase/schema.sql`.
+3. Click **Run**. You should see "Success. No rows returned."
+
+That creates the tables and turns on the security rules. Without this
+step, the dashboard will show errors about missing tables.
+
+## Then
+- `npm run dev`, log in, and you'll see "Add event" / "Add news" buttons.
+- Add one of each — they appear on the dashboard immediately.
+- Commit and push; Vercel redeploys automatically. Live in ~1 minute.
+
+## Parked on purpose (don't build yet)
+- **Video upload** — its own milestone (storage + streaming is the heavy part)
+- **Admin-only posting** — right now any member can post; tighten later
+  with an is_admin flag (see note at the bottom of schema.sql)
+- Rankings, tournaments, ratings, club finder — later milestones

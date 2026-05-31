@@ -271,3 +271,142 @@ a {
   .hero { padding: 48px 0 40px; }
   .photos { grid-template-columns: 1fr; }
 }
+
+/* ===== Milestone 2: dashboard panels, lists, forms ===== */
+
+.avatar-sm {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.dash-wrap {
+  padding-top: 36px;
+  padding-bottom: 64px;
+}
+
+.dash-head {
+  margin-bottom: 32px;
+}
+
+.dash-head h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.dash-head p {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.panel {
+  margin-bottom: 36px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-head h2 {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.btn-sm {
+  font-size: 13px;
+  padding: 7px 14px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.list-date {
+  flex-shrink: 0;
+  width: 84px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green);
+  padding-top: 2px;
+}
+
+.list-title {
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.list-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.list-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 15px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+/* Form pages */
+.form-page {
+  max-width: 560px;
+  padding-top: 36px;
+  padding-bottom: 64px;
+}
+
+.form-page h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.field textarea:focus {
+  border-color: var(--green);
+}
