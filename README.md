@@ -122,3 +122,36 @@ step, the dashboard will show errors about missing tables.
 - **Admin-only posting** — right now any member can post; tighten later
   with an is_admin flag (see note at the bottom of schema.sql)
 - Rankings, tournaments, ratings, club finder — later milestones
+
+---
+
+# Milestone 3 — RSVPs
+
+Members can tap "I'm going" on an event and see how many are attending.
+New concept: the **join table** (many-to-many relationship).
+
+## What's new
+- `supabase/schema-rsvps.sql` — the `rsvps` join table + RLS policies
+- `app/dashboard/rsvp-button.js` — the going/not-going toggle + count
+- `app/dashboard/page.js` — now loads RSVP data and shows the button per event
+
+## Required step: run the new SQL
+1. Supabase → **SQL Editor** → **New query**
+2. Paste all of `supabase/schema-rsvps.sql` → **Run**
+   (This is separate from milestone 2's schema.sql — run it after.)
+
+## The concept worth understanding
+`rsvps` is a JOIN TABLE. It doesn't describe a thing (like an event or a
+person) — it describes a *relationship between* two things. Each row =
+"this user is going to this event." The `unique (event_id, user_id)`
+constraint stops anyone RSVPing twice. This many-to-many pattern shows
+up everywhere once you start noticing it.
+
+## Then
+- `npm run dev`, log in, add an event if there isn't one, tap "I'm going".
+- The button flips to "Going ✓" and the count goes up. Tap again to undo.
+- Commit + push → Vercel redeploys.
+
+## Parked (next quick follow-up)
+- Showing attendee NAMES, not just the count. Needs a `profiles` table
+  with display names + a read policy. Small, focused, do it next.

@@ -410,3 +410,26 @@ a {
 .field textarea:focus {
   border-color: var(--green);
 }
+
+/* ===== Milestone 3: RSVP button ===== */
+
+.rsvp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-going {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.btn-going:hover {
+  background: #d2efe4;
+}
+
+.rsvp-count {
+  font-size: 13px;
+  color: var(--text-muted);
+}

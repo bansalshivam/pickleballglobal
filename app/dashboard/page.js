@@ -2,10 +2,10 @@ import { createClient } from "../../lib/supabase-server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "./logout-button";
+import RsvpButton from "./rsvp-button";
 
 export const dynamic = "force-dynamic";
 
-// Format a date string like "Sat 14 Jun" (or empty if none).
 function fmtDate(d) {
   if (!d) return "Date TBC";
   return new Date(d).toLocaleDateString("en-GB", {
@@ -28,7 +28,6 @@ export default async function Dashboard() {
   const name = user.email.split("@")[0];
   const initials = name.slice(0, 2).toUpperCase();
 
-  // Fetch events (soonest first) and news (newest first).
   const { data: events } = await supabase
     .from("events")
     .select("*")
@@ -38,6 +37,18 @@ export default async function Dashboard() {
     .from("news")
     .select("*")
     .order("created_at", { ascending: false });
+
+  // Fetch all RSVPs once, then compute per-event count + whether
+  // THIS user is going. (Fine at club scale; optimise later if needed.)
+  const { data: rsvps } = await supabase.from("rsvps").select("event_id, user_id");
+
+  function rsvpInfo(eventId) {
+    const forEvent = (rsvps || []).filter((r) => r.event_id === eventId);
+    return {
+      count: forEvent.length,
+      going: forEvent.some((r) => r.user_id === user.id),
+    };
+  }
 
   return (
     <>
@@ -70,20 +81,28 @@ export default async function Dashboard() {
 
           {events && events.length > 0 ? (
             <ul className="list">
-              {events.map((ev) => (
-                <li key={ev.id} className="list-item">
-                  <div className="list-date">{fmtDate(ev.event_date)}</div>
-                  <div className="list-body">
-                    <div className="list-title">{ev.title}</div>
-                    {ev.location && (
-                      <div className="list-meta">{ev.location}</div>
-                    )}
-                    {ev.description && (
-                      <div className="list-desc">{ev.description}</div>
-                    )}
-                  </div>
-                </li>
-              ))}
+              {events.map((ev) => {
+                const { count, going } = rsvpInfo(ev.id);
+                return (
+                  <li key={ev.id} className="list-item">
+                    <div className="list-date">{fmtDate(ev.event_date)}</div>
+                    <div className="list-body">
+                      <div className="list-title">{ev.title}</div>
+                      {ev.location && (
+                        <div className="list-meta">{ev.location}</div>
+                      )}
+                      {ev.description && (
+                        <div className="list-desc">{ev.description}</div>
+                      )}
+                      <RsvpButton
+                        eventId={ev.id}
+                        initialGoing={going}
+                        initialCount={count}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <div className="empty">No events yet. Add the first one.</div>
